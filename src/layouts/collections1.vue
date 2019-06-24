@@ -1,8 +1,8 @@
 <template>
     <div>
-        <br/>Collection {{record.name}}
+        <h1>Collection {{record.name}}</h1>
 
-        <br/><br/>Material types:
+        Material types:
         <ul>
             <li v-for="c in record.data_categories.items">{{c.label}}</li>
         </ul>
