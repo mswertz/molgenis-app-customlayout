@@ -1,19 +1,14 @@
-# molgenis-catalogue-templates
+# MOLGENIS template editor
 
-We use this project to test different templates.
+This app aims to enable the user to edit templates for entity reports.
 
-You can find the templates in the folder src/templates
-We use VueJS to define the templates.
+This is still work in progress; TODO is ability to save the template, and ability to show the template (without the editor)
 
-To view the templates run the following:
+To view the app:
 
-## Project setup (1x)
+## To view the editor on your local machine
 ```
 npm install
-```
-
-### To view the templates (and while editing, you get updates)
-```
 npm run serve
 ```
 
