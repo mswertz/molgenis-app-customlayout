@@ -3,10 +3,16 @@
      <div class="container-fluid">
         <div class="card-group">
             <div class="card">
-            <h1>MOLGENIS Entity Template Editor</h1>
-            <div class="form-group">
-                <label for="url">MOLGENIS REST query (one record will be passed into template):</label>
-                <input class="form-control" type="" v-model="url"/>
+            <div class="card-body" >
+                <h1>MOLGENIS Entity Template Editor (ALPHA)</h1>
+                <div>This app allows you to retrieve data from MOLGENIS REST query and then edit a custom layout template to render the result.
+                    Future work will include ability to safe your template and link it to the entity in your query.
+                </div>
+                <br/>
+                <div class="form-group">
+                    <label for="url">MOLGENIS REST query (one record will be passed into template):</label>
+                    <input class="form-control" type="" v-model="url"/>
+                </div>
             </div>
             </div>
         </div>
