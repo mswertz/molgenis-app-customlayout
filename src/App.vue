@@ -1,17 +1,16 @@
 <template>
 <div>
-  <LayoutTester />
+  <DynamicTemplate />
 </div>
 </template>
 
 <script>
-import LayoutTester from './components/LayoutTester.vue'
-
+import DynamicTemplate from './components/DynamicTemplate.vue'
 
 export default {
   name: 'app',
   components: {
-    LayoutTester
+    DynamicTemplate
   }
 }
 </script>
