@@ -1,7 +1,7 @@
 {
-  "name": "molgenis-catalogue-templates",
-  "version": "0.1.0",
-  "private": true,
+  "name": "@mswertz/molgenis-app-reports",
+  "version": "0.1.5",
+  "main" : "dist/index.html",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
@@ -27,5 +27,8 @@
   "browserslist": [
     "> 1%",
     "last 2 versions"
-  ]
+  ],
+  "files": [
+    "dist/*"
+   ]
 }

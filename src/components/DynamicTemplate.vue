@@ -11,14 +11,8 @@
             <div class="card-group">
                 <div class="card">
                 <div class="card-body" >
-                    <h1>MOLGENIS Entity Template Editor (ALPHA)</h1>
+                    <h1>MOLGENIS Entity Report Editor (ALPHA)</h1>
                     <div>This app allows you to retrieve data from MOLGENIS REST query and then edit a custom layout template to render the result.
-                        Future work will include ability to safe your template and link it to the entity in your query.
-                    </div>
-                    <br/>
-                    <div class="form-group">
-                        <label for="url">MOLGENIS REST query (one record will be passed into template):</label>
-                        <input class="form-control" type="" v-model="url"/>
                     </div>
                 </div>
                 </div>
@@ -45,7 +39,14 @@
             </div>
             <div class="card-group">
                 <div class="card card-body" style="width: 100%">
-                    <h2>For debuging json state below</h2>
+                    <h2>Edit data source below</h2>
+                    <div class="form-group">
+                        <label for="url">Enter MOLGENIS REST query below (one record will be passed into template):</label>
+                        <input class="form-control" type="" v-model="url"/>
+                    </div>
+                    <div v-if="loading" class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
                     <pre>record = {{ record }}</pre>
                 </div>
             </div>
@@ -69,6 +70,7 @@ export default {
     template: '<h1>{{record.name}}<span v-if="record.acronym">({{record.acronym}})</span></h1>\n{{record.description}}',
     results:[{name:"Loading...."}],
     index: 0, 
+    loading: false,
     fullscreen: false,
     linenumbers: true, 
     url: "https://directory.bbmri-eric.eu/api/v1/eu_bbmri_eric_collections?expand=materials,biobank,diagnosis_available,network,contact,data_categories&num=10"
@@ -84,9 +86,23 @@ export default {
         return "<div>"+this.template.trim()+"</div>";
     }
   },
+  watch : {
+      url: function(val) {
+          this.loading = true;
+        axios.get(this.url)
+        .then(response => {
+            this.results = response.data.items; 
+            this.loading = false;
+        })
+      }
+  },
   mounted() {
+    this.loading = true;
     axios.get(this.url)
-    .then(response => {this.results = response.data.items})
+    .then(response => {
+        this.results = response.data.items; 
+        this.loading = false;
+    })
   }
 };
 </script>
