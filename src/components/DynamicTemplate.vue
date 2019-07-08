@@ -1,9 +1,10 @@
 <template>
  <div>
     <div v-if="fullscreen == true">
-        <button type="button" class="btn btn-primary" :disabled="index < 1" v-on:click="index -= 1">Prev</button>&nbsp;
-        <button type="button" class="btn btn-primary" v-on:click="index += 1">Next</button>&nbsp;
-        <button type="button" class="btn btn-primary" v-on:click="fullscreen=false;">Close fullscreen</button>
+        <button type="button" class="btn btn-secondary btn-sm" :disabled="index < 1" v-on:click="index -= 1">Prev</button>&nbsp;
+        <button type="button" class="btn btn-secondary btn-sm" v-on:click="index += 1">Next</button>&nbsp;
+        <button type="button" class="btn btn-secondary btn-sm" v-on:click="fullscreen=false;">Close fullscreen</button>
+        <hr/>
         <VRuntimeTemplate :template="vue"/>
      </div>
     <div v-if="fullscreen == false">
@@ -68,7 +69,7 @@ import axios from 'axios';
 import PrismEditor from 'vue-prism-editor';
 
 
-var yaml = YAML.load('examples.yaml');
+var yaml = YAML.load('./examples.yaml');
 
 export default {
   data: () => ({

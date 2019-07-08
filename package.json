@@ -1,10 +1,11 @@
 {
   "name": "@mswertz/molgenis-app-reports",
-  "version": "0.1.5",
+  "version": "0.1.9",
   "main": "dist/index.html",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "publish": "npm run build & npm publish"
   },
   "dependencies": {
     "axios": "^0.19.0",
