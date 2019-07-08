@@ -13,6 +13,7 @@
                 <div class="card-body" >
                     <h1>MOLGENIS Entity Report Editor (ALPHA)</h1>
                     <div>This app allows you to retrieve data from MOLGENIS REST query and then edit a custom layout template to render the result.
+                    <br/><div class="form-group"><label>Load an example:</label><select class="form-control col-7" v-model="selectedExample"><option v-for="e in exampleKeys" :value="e">{{e}}</option></select></div>
                     </div>
                 </div>
                 </div>
@@ -61,19 +62,25 @@ import "prismjs";
 import "prismjs/themes/prism.css";
 //vue-prism-editor dependency
 import "vue-prism-editor/dist/VuePrismEditor.css";
+import YAML from 'yamljs';
 import VRuntimeTemplate from "v-runtime-template";
 import axios from 'axios';
 import PrismEditor from 'vue-prism-editor';
 
+
+var yaml = YAML.load('examples.yaml');
+
 export default {
   data: () => ({
+    url: "https://directory.bbmri-eric.eu/api/v1/eu_bbmri_eric_collections?expand=materials,biobank,diagnosis_available,network,contact,data_categories&num=10",
     template: '<h1>{{record.name}}<span v-if="record.acronym">({{record.acronym}})</span></h1>\n{{record.description}}',
     results:[{name:"Loading...."}],
     index: 0, 
+    examples: yaml,
+    selectedExample: 'biobank1',
     loading: false,
     fullscreen: false,
-    linenumbers: true, 
-    url: "https://directory.bbmri-eric.eu/api/v1/eu_bbmri_eric_collections?expand=materials,biobank,diagnosis_available,network,contact,data_categories&num=10"
+    linenumbers: true 
   }),
   components : {
       VRuntimeTemplate, PrismEditor
@@ -84,6 +91,9 @@ export default {
     },
     vue: function() {
         return "<div>"+this.template.trim()+"</div>";
+    },
+    exampleKeys:  function() {
+        return Object.keys(this.examples);
     }
   },
   watch : {
@@ -94,6 +104,11 @@ export default {
             this.results = response.data.items; 
             this.loading = false;
         })
+      },
+      selectedExample: function(val) {
+          this.url = this.examples[val].url;
+          this.template = this.examples[val].template;
+
       }
   },
   mounted() {
@@ -102,7 +117,7 @@ export default {
     .then(response => {
         this.results = response.data.items; 
         this.loading = false;
-    })
+    });
   }
 };
 </script>
