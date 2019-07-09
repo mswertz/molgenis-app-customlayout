@@ -22,7 +22,7 @@
             <div class="card-group">
                     <div class="card">
                         <div class="card-body" >
-                            <h2>Edit template below:</h2>
+                            <h2>Edit template below: <button v-on:click="beautify" class="btn btn-primary btn-sm">format template</button></h2>
                             <hr/>
                             <PrismEditor v-model="template" language="js" line-numbers="linenumbers" style="width:100%"/>
                         </div>
@@ -67,7 +67,7 @@ import YAML from 'yamljs';
 import VRuntimeTemplate from "v-runtime-template";
 import axios from 'axios';
 import PrismEditor from 'vue-prism-editor';
-
+import beautify from 'vue-beautify';
 
 var yaml = YAML.load('./examples.yaml');
 
@@ -95,6 +95,11 @@ export default {
     },
     exampleKeys:  function() {
         return Object.keys(this.examples);
+    }
+  },
+  methods: {
+    beautify: function(event) {
+      this.template = beautify(this.template);
     }
   },
   watch : {
