@@ -13,13 +13,12 @@ import VRuntimeTemplate from "v-runtime-template"
 
 // loads results from URL and allows you to scroll through them
 export default {
-    props: ['host', 'table', 'attrs', 'template', 'buttonText'],
+    props: ['host', 'table', 'attrs', 'template', 'buttonText', 'id'],
     components : {
       VRuntimeTemplate
     },
     data () {
         return {
-            id: null,
             ids: [],
             loading: false,
             record: null
@@ -27,10 +26,10 @@ export default {
     },
     methods: {
         next () {
-            this.id = this.ids[this.index + 1]
+            this.$emit('select', this.ids[this.index + 1])
         },
         prev () {
-            this.id = this.ids[this.index - 1]
+            this.$emit('select', this.ids[this.index - 1])
         }
     },
     computed: {
@@ -61,7 +60,9 @@ export default {
                 if (value === this.idsUrl) {
                     const idAttribute = response.data.meta.idAttribute
                     this.ids = response.data.items.map((it) => it[idAttribute])
-                    this.id = this.ids[0]
+                    if (this.ids.length > 0 ) {
+                        this.$emit('select', this.ids[0])
+                    }
                 }
             },
             immediate: true

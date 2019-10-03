@@ -6,8 +6,10 @@
         :table="table"
         :attrs="attrs"
         :template="template"
+        :id="id"
         buttonText="Edit"
-        @recordChanged = "recordChanged"
+        @recordChanged="recordChanged"
+        @select="select"
         @buttonClick="fullscreen=false">
     </RecordViewer>
     <div v-else>
@@ -43,9 +45,11 @@
                                 :host="host"
                                 :table="table"
                                 :attrs="attrs"
+                                :id="id"
                                 :template="template"
                                 buttonText="Fullscreen" 
                                 @buttonClick="fullscreen=true"
+                                @select="select"
                                 @recordChanged = "recordChanged">
                             </RecordViewer>
                         </div>
@@ -99,6 +103,7 @@ export default {
         record: {},
         examples: yaml,
         loading: true,
+        id: null,
         fullscreen: !!selectedExample,
         linenumbers: true,
         ...example
@@ -116,6 +121,9 @@ export default {
     }
   },
   methods: {
+    select (id) {
+        this.id = id
+    },
     selectExample (event) {
         const example = this.examples[event.target.value]
         this.host = example.host
