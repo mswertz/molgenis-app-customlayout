@@ -8,10 +8,10 @@ Vue.use(VueRouter)
 Vue.config.productionTip = false
 
 const router = new VueRouter({
-  mode: 'history',
   base: __dirname,
   routes: [
-    { path: '/:id?', component: DynamicTemplate }
+    { path: '/:id?', component: DynamicTemplate },
+    { path: '/:id/:id2', component: DynamicTemplate }
   ]
 })
 

@@ -103,7 +103,6 @@ export default {
         record: {},
         examples: yaml,
         loading: true,
-        id: null,
         fullscreen: !!selectedExample,
         linenumbers: true,
         ...example
@@ -118,11 +117,14 @@ export default {
     },
     selectedExample () {
         return this.$route.params.id || null
+    },
+    id () {
+        return decodeURI(this.$route.params.id2) || null
     }
   },
   methods: {
     select (id) {
-        this.id = id
+        this.$router.push({path: `/${this.selectedExample}/${encodeURI(id)}`})
     },
     selectExample (event) {
         const example = this.examples[event.target.value]

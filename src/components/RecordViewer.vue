@@ -43,7 +43,7 @@ export default {
             return `${this.host}/api/v2/${this.table}?attrs=~id&num=10000`
         },
         recordUrl () {
-            if (this.id === null) {
+            if (this.ids.indexOf(this.id) === -1) {
                 return null
             }
             return `${this.host}/api/v2/${this.table}/${encodeURI(this.id)}?attrs=${this.attrs}`
