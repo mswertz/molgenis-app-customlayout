@@ -1,21 +1,11 @@
 <template>
 <div>
-  <DynamicTemplate />
+  <router-view class="view"></router-view>
 </div>
 </template>
 
 <script>
-import DynamicTemplate from './components/DynamicTemplate.vue'
-
 export default {
-  name: 'app',
-  components: {
-    DynamicTemplate
-  }
+  name: 'app'
 }
 </script>
-
-<style>
-#app {
-}
-</style>

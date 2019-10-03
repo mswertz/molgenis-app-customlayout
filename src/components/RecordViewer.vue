@@ -38,8 +38,8 @@ export default {
         handler: function(val) {
             this.loading = true
             this.index = 0
-            axios.get(this.url).then((response) => {
-                if (this.url === val) {
+            axios.get(val).then((response) => {
+                if (this.url === val && response.data.items) {
                     this.results = response.data.items
                     this.loading = false
                 }
