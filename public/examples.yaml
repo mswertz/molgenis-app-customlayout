@@ -1,6 +1,4 @@
 eu_bbmri_eric_biobanks:
-  host: https://directory.bbmri-eric.eu
-  table: eu_bbmri_eric_biobanks
   attrs: "*,collections(*),contact,network,country"
   template: >
     <div class="container">
@@ -59,8 +57,6 @@ eu_bbmri_eric_biobanks:
         </div>
     </div>
 eu_bbmri_eric_collections:
-  host: https://directory.bbmri-eric.eu/
-  table: eu_bbmri_eric_collections
   attrs: "*,biobank(*)"
   template: >
     <div class="container">

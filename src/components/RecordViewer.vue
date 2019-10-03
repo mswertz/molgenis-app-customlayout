@@ -4,6 +4,9 @@
         <button type="button" class="btn btn-secondary btn-sm" :disabled="index >= ids.length - 1" v-on:click="next">Next</button>&nbsp;
         <button type="button" class="btn btn-secondary btn-sm" @click="$emit('buttonClick')">{{buttonText}}</button>
         <hr/>
+        <div v-if="loading" class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
         <VRuntimeTemplate :template="vue" v-if="record"/>
     </div>
 </template>
@@ -13,7 +16,7 @@ import VRuntimeTemplate from "v-runtime-template"
 
 // loads results from URL and allows you to scroll through them
 export default {
-    props: ['host', 'table', 'attrs', 'template', 'buttonText', 'id'],
+    props: ['table', 'id', 'attrs', 'template', 'buttonText'],
     components : {
       VRuntimeTemplate
     },
@@ -39,14 +42,17 @@ export default {
         vue: function() {
             return "<div>"+this.template.trim()+"</div>";
         },
+        loading () {
+            return this.record === null && this.recordUrl != null
+        },
         idsUrl () {
-            return `${this.host}/api/v2/${this.table}?attrs=~id&num=10000`
+            return `/api/v2/${this.table}?attrs=~id&num=10000`
         },
         recordUrl () {
             if (this.ids.indexOf(this.id) === -1) {
                 return null
             }
-            return `${this.host}/api/v2/${this.table}/${encodeURI(this.id)}?attrs=${this.attrs}`
+            return `/api/v2/${this.table}/${encodeURI(this.id)}?attrs=${this.attrs}`
         }
     },
     watch : {

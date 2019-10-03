@@ -2,7 +2,6 @@
  <div>
     <RecordViewer
         v-if="fullscreen"
-        :host="host"
         :table="table"
         :attrs="attrs"
         :template="template"
@@ -42,7 +41,6 @@
                         <div class="card-body">
                             <h2>Preview result below:</h2>
                             <RecordViewer
-                                :host="host"
                                 :table="table"
                                 :attrs="attrs"
                                 :id="id"
@@ -58,10 +56,6 @@
             <div class="card-group" v-if="selectedExample">
                 <div class="card card-body" style="width: 100%">
                     <h2>Edit data source below</h2>
-                    <div class="form-group">
-                        <label for="host">Hostname:</label>
-                        <input name="host" class="form-control" v-model="host"/>
-                    </div>
                     <div class="form-group">
                         <label for="table">Table:</label>
                         <input name="table" class="form-control" v-model="table"/>
@@ -97,13 +91,14 @@ var yaml = YAML.load('./examples.yaml');
 
 export default {
   data () {
-    const selectedExample = this.$route.params.id || null
-    const example = yaml[selectedExample] || { host: '', table: '', template: '', idAttribute: '', attrs: '' }
+    const table = this.$route.params.id || null
+    const example = yaml[table] || { template: '', idAttribute: '', attrs: '' }
     return {
         record: {},
         examples: yaml,
         loading: true,
-        fullscreen: !!selectedExample,
+        table,
+        fullscreen: !!table,
         linenumbers: true,
         ...example
     }
@@ -127,10 +122,10 @@ export default {
         this.$router.push({path: `/${this.selectedExample}/${encodeURI(id)}`})
     },
     selectExample (event) {
-        const example = this.examples[event.target.value]
+        this.table = event.target.value
+        const example = this.examples[this.table]
         this.host = example.host
         this.template = example.template
-        this.table = example.table
         this.idAttribute = example.idAttribute
         this.attrs = example.attrs
         this.template = example.template
