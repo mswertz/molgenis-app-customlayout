@@ -1,7 +1,7 @@
 <template>
     <div>
-        <button type="button" class="btn btn-secondary btn-sm" :disabled="index < 1" v-on:click="index -= 1">Prev</button>&nbsp;
-        <button type="button" class="btn btn-secondary btn-sm" :disabled="index >= ids.length - 1" v-on:click="index += 1">Next</button>&nbsp;
+        <button type="button" class="btn btn-secondary btn-sm" :disabled="index < 1" v-on:click="prev">Prev</button>&nbsp;
+        <button type="button" class="btn btn-secondary btn-sm" :disabled="index >= ids.length - 1" v-on:click="next">Next</button>&nbsp;
         <button type="button" class="btn btn-secondary btn-sm" @click="$emit('buttonClick')">{{buttonText}}</button>
         <hr/>
         <VRuntimeTemplate :template="vue" v-if="record"/>
@@ -13,30 +13,35 @@ import VRuntimeTemplate from "v-runtime-template"
 
 // loads results from URL and allows you to scroll through them
 export default {
-    props: ['host', 'table', 'attrs', 'template', 'buttonText', 'idAttribute'],
+    props: ['host', 'table', 'attrs', 'template', 'buttonText'],
     components : {
       VRuntimeTemplate
     },
     data () {
         return {
-            index: -1,
+            id: null,
             ids: [],
             loading: false,
             record: null
         }
     },
+    methods: {
+        next () {
+            this.id = this.ids[this.index + 1]
+        },
+        prev () {
+            this.id = this.ids[this.index - 1]
+        }
+    },
     computed: {
+        index: function () {
+            return this.ids.indexOf(this.id)
+        },
         vue: function() {
             return "<div>"+this.template.trim()+"</div>";
         },
         idsUrl () {
-            return `${this.host}/api/v2/${this.table}?attrs=${this.idAttribute}&num=10000`
-        },
-        id () {
-            if (this.index === -1) {
-                return null
-            }
-            return this.ids[this.index]
+            return `${this.host}/api/v2/${this.table}?attrs=~id&num=10000`
         },
         recordUrl () {
             if (this.id === null) {
@@ -54,8 +59,9 @@ export default {
             async handler (value) {
                 const response = await axios.get(value)
                 if (value === this.idsUrl) {
-                    this.ids = response.data.items.map((it) => it[this.idAttribute])
-                    this.index = 0
+                    const idAttribute = response.data.meta.idAttribute
+                    this.ids = response.data.items.map((it) => it[idAttribute])
+                    this.id = this.ids[0]
                 }
             },
             immediate: true

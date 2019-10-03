@@ -5,7 +5,6 @@
         :host="host"
         :table="table"
         :attrs="attrs"
-        :idAttribute="idAttribute"
         :template="template"
         buttonText="Edit"
         @recordChanged = "recordChanged"
@@ -44,7 +43,6 @@
                                 :host="host"
                                 :table="table"
                                 :attrs="attrs"
-                                :idAttribute="idAttribute"
                                 :template="template"
                                 buttonText="Fullscreen" 
                                 @buttonClick="fullscreen=true"
@@ -63,10 +61,6 @@
                     <div class="form-group">
                         <label for="table">Table:</label>
                         <input name="table" class="form-control" v-model="table"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="idAttr">idAttr:</label>
-                        <input name="idAttribute" class="form-control" v-model="idAttribute"/>
                     </div>
                     <div class="form=group">
                         <label for="url">attrs:</label>

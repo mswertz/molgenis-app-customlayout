@@ -1,7 +1,6 @@
-biobanks1:
+eu_bbmri_eric_biobanks:
   host: https://directory.bbmri-eric.eu
   table: eu_bbmri_eric_biobanks
-  idAttribute: id
   attrs: "*,collections(*),contact,network,country"
   template: >
     <div class="container">
@@ -59,11 +58,10 @@ biobanks1:
             </div>
         </div>
     </div>
-collections1:
+eu_bbmri_eric_collections:
   host: https://directory.bbmri-eric.eu/
   table: eu_bbmri_eric_collections
   attrs: "*,biobank(*)"
-  idAttribute: id
   template: >
     <div class="container">
     <h4><span class="badge badge-secondary">Collection</span></h4>
