@@ -1,5 +1,8 @@
 biobanks1:
-  url: https://directory.bbmri-eric.eu/api/v2/eu_bbmri_eric_biobanks?attrs=*,collections(*),contact,network,country&num=10
+  host: https://directory.bbmri-eric.eu
+  table: eu_bbmri_eric_biobanks
+  idAttribute: id
+  attrs: "*,collections(*),contact,network,country"
   template: >
     <div class="container">
         <h4><span class="badge badge-secondary">Biobank</span></h4>
@@ -57,7 +60,10 @@ biobanks1:
         </div>
     </div>
 collections1:
-  url: https://directory.bbmri-eric.eu/api/v2/eu_bbmri_eric_collections?attrs=*,biobank(*)&num=10
+  host: https://directory.bbmri-eric.eu/
+  table: eu_bbmri_eric_collections
+  attrs: "*,biobank(*)"
+  idAttribute: id
   template: >
     <div class="container">
     <h4><span class="badge badge-secondary">Collection</span></h4>

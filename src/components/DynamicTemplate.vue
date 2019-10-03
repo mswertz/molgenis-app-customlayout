@@ -2,9 +2,12 @@
  <div>
     <RecordViewer
         v-if="fullscreen"
-        :url="url"
+        :host="host"
+        :table="table"
+        :attrs="attrs"
+        :idAttribute="idAttribute"
         :template="template"
-        buttonText="Close fullscreen"
+        buttonText="Edit"
         @recordChanged = "recordChanged"
         @buttonClick="fullscreen=false">
     </RecordViewer>
@@ -38,8 +41,11 @@
                         <div class="card-body">
                             <h2>Preview result below:</h2>
                             <RecordViewer
-                                :url="url" 
-                                :template="template" 
+                                :host="host"
+                                :table="table"
+                                :attrs="attrs"
+                                :idAttribute="idAttribute"
+                                :template="template"
                                 buttonText="Fullscreen" 
                                 @buttonClick="fullscreen=true"
                                 @recordChanged = "recordChanged">
@@ -51,10 +57,22 @@
                 <div class="card card-body" style="width: 100%">
                     <h2>Edit data source below</h2>
                     <div class="form-group">
-                        <label for="url">Enter MOLGENIS REST query below (one record will be passed into template):</label>
-                        <input class="form-control" type="" v-model="url"/>
+                        <label for="host">Hostname:</label>
+                        <input name="host" class="form-control" v-model="host"/>
                     </div>
-                    <div v-if="loading" class="spinner-border" role="status">
+                    <div class="form-group">
+                        <label for="table">Table:</label>
+                        <input name="table" class="form-control" v-model="table"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="idAttr">idAttr:</label>
+                        <input name="idAttribute" class="form-control" v-model="idAttribute"/>
+                    </div>
+                    <div class="form=group">
+                        <label for="url">attrs:</label>
+                        <input name="attrs" class="form-control" v-model="attrs"/>
+                    </div>
+                    <div v-if="record === null" class="spinner-border" role="status">
                         <span class="sr-only">Loading...</span>
                     </div>
                     <pre v-else>record = {{ record }}</pre>
@@ -81,12 +99,13 @@ var yaml = YAML.load('./examples.yaml');
 
 export default {
   data () {
-    const example = yaml[this.selectedExample] || {url: '', template: ''}
+    const selectedExample = this.$route.params.id || null
+    const example = yaml[selectedExample] || { host: '', table: '', template: '', idAttribute: '', attrs: '' }
     return {
         record: {},
         examples: yaml,
         loading: true,
-        fullscreen: false,
+        fullscreen: !!selectedExample,
         linenumbers: true,
         ...example
     }
@@ -104,9 +123,13 @@ export default {
   },
   methods: {
     selectExample (event) {
-        const value = event.target.value
-        this.url = this.examples[value].url
-        this.template = this.examples[value].template
+        const example = this.examples[event.target.value]
+        this.host = example.host
+        this.template = example.template
+        this.table = example.table
+        this.idAttribute = example.idAttribute
+        this.attrs = example.attrs
+        this.template = example.template
         this.$router.push({path: `/${event.target.value}`})
     },
     beautify: function(event) {
