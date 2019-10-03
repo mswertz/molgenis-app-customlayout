@@ -1,13 +1,14 @@
 <template>
  <div>
-    <div v-if="fullscreen == true">
-        <button type="button" class="btn btn-secondary btn-sm" :disabled="index < 1" v-on:click="index -= 1">Prev</button>&nbsp;
-        <button type="button" class="btn btn-secondary btn-sm" v-on:click="index += 1">Next</button>&nbsp;
-        <button type="button" class="btn btn-secondary btn-sm" v-on:click="fullscreen=false;">Close fullscreen</button>
-        <hr/>
-        <VRuntimeTemplate :template="vue"/>
-     </div>
-    <div v-if="fullscreen == false">
+    <RecordViewer
+        v-if="fullscreen" 
+        :url="url" 
+        :template="template" 
+        buttonText="Close fullscreen" 
+        @recordChanged = "recordChanged"
+        @buttonClick="fullscreen=false">
+    </RecordViewer>
+    <div v-else>
         <div class="container-fluid">
             <div class="card-group">
                 <div class="card">
@@ -29,13 +30,14 @@
                     </div>
                     <div class="card">
                         <div class="card-body">
-                            <h2>Preview result below:<div class="btn-group" role="group" >
-                            <button type="button" class="btn btn-primary btn-sm" :disabled="index < 1" v-on:click="index -= 1">Prev</button>
-                            <button type="button" class="btn btn-primary btn-sm" v-on:click="index += 1">Next</button>
-                            <button type="button" class="btn btn-primary btn-sm" v-on:click="fullscreen=true;">Show fullscreen</button>
-                            </div></h2>
-                            <hr/>
-                            <VRuntimeTemplate :template="vue"/>
+                            <h2>Preview result below:</h2>
+                            <RecordViewer
+                                :url="url" 
+                                :template="template" 
+                                buttonText="Fullscreen" 
+                                @buttonClick="fullscreen=true"
+                                @recordChanged = "recordChanged">
+                            </RecordViewer>
                         </div>
                     </div>
             </div>
@@ -49,7 +51,7 @@
                     <div v-if="loading" class="spinner-border" role="status">
                         <span class="sr-only">Loading...</span>
                     </div>
-                    <pre>record = {{ record }}</pre>
+                    <pre v-else>record = {{ record }}</pre>
                 </div>
             </div>
         </div>
@@ -64,10 +66,10 @@ import "prismjs/themes/prism.css";
 //vue-prism-editor dependency
 import "vue-prism-editor/dist/VuePrismEditor.css";
 import YAML from 'yamljs';
-import VRuntimeTemplate from "v-runtime-template";
-import axios from 'axios';
 import PrismEditor from 'vue-prism-editor';
 import beautify from 'vue-beautify';
+
+import RecordViewer from './RecordViewer.vue'
 
 var yaml = YAML.load('./examples.yaml');
 
@@ -75,24 +77,17 @@ export default {
   data: () => ({
     url: "https://directory.bbmri-eric.eu/api/v1/eu_bbmri_eric_collections?expand=materials,biobank,diagnosis_available,network,contact,data_categories&num=10",
     template: '<h1>{{record.name}}<span v-if="record.acronym">({{record.acronym}})</span></h1>\n{{record.description}}',
-    results:[{name:"Loading...."}],
-    index: 0, 
+    record: {},
     examples: yaml,
     selectedExample: 'biobank1',
-    loading: false,
+    loading: true,
     fullscreen: false,
     linenumbers: true 
   }),
   components : {
-      VRuntimeTemplate, PrismEditor
+      PrismEditor, RecordViewer
   },
   computed: {
-  	record: function() {
-    	return this.results[this.index];
-    },
-    vue: function() {
-        return "<div>"+this.template.trim()+"</div>";
-    },
     exampleKeys:  function() {
         return Object.keys(this.examples);
     }
@@ -100,30 +95,20 @@ export default {
   methods: {
     beautify: function(event) {
       this.template = beautify(this.template);
+    },
+    recordChanged: function(record) {
+        this.loading = false
+        this.record = record
     }
   },
   watch : {
-      url: function(val) {
-          this.loading = true;
-        axios.get(this.url)
-        .then(response => {
-            this.results = response.data.items; 
-            this.loading = false;
-        })
+      url: function() {
+          this.loading = true
       },
       selectedExample: function(val) {
           this.url = this.examples[val].url;
           this.template = this.examples[val].template;
-
       }
-  },
-  mounted() {
-    this.loading = true;
-    axios.get(this.url)
-    .then(response => {
-        this.results = response.data.items; 
-        this.loading = false;
-    });
   }
 };
 </script>
