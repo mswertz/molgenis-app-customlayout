@@ -2,7 +2,7 @@
 //runtime compiler enabls dynamic template editing by user
 module.exports = {
   runtimeCompiler: true,
-  publicPath: './',
+  publicPath: '/@mswertz/molgenis-app-reports/dist/',
   devServer: {
     proxy: process.env.NODE_ENV !== 'development' ? undefined : {
       '^/api': {
