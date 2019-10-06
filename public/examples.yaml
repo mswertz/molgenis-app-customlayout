@@ -1,59 +1,60 @@
 eu_bbmri_eric_biobanks:
   attrs: "*,collections(*),contact,network,country"
   template: >
-    <div class="container">    <h4><span class="badge badge-secondary">Biobank</span></h4>
-    <h1>{{record.name}}<span v-if="record.acronym">({{record.acronym}})</span></h1>
-    <div>ID: {{record.id}}</div>
-    <div class="row">
-        <div class="col"> <br />
-            <p v-if="record.description">{{record.description.substr(0,500)}} <span v-if="record.description.length >= 500"><span id="collapseDescription" class="collapse">{{record.description.substr(500)}}</span> <a data-toggle="collapse" href="#collapseDescription"> ... show more</a></span>
-                <p>
+     <div class="container">
+        <h4><span class="badge badge-secondary">Biobank</span></h4>
+        <h1>{{record.name}}<span v-if="record.acronym">({{record.acronym}})</span></h1>
+        <div>ID: {{record.id}}</div>
+        <div class="row">
+            <div class="col"> <br />
+                <p v-if="record.description">{{record.description.substr(0,500)}} <span v-if="record.description.length >= 500"><span id="collapseDescription" class="collapse">{{record.description.substr(500)}}</span> <a data-toggle="collapse" href="#collapseDescription"> ... show more</a></span>
+                    <p>
 
-                    <h3>Collections</h3>
-                    <div v-if="record.collections.length == 0 ">none</div>
-                    <ul class="list-group list-group-flush">
-                        <li v-for="(c,index) in record.collections" class="list-group-item pl-0">
-                            <h4><a href="">{{c.name}}</a></h4> <p v-if="c.description">{{c.description.substr(0,200)}}
-                            <span v-if="c.description.length >= 200">
-                                <span class="collapse" :id="'collection'+index">{{c.description.substr(200)}}</span>
-                                <a data-toggle="collapse" :href="'#collection'+index"> ... read more</a>
-                            </span>
-                            </span></p>
-                            <table>
-                                <tr>
-                                    <td style="width: 5rem"> Size: </td>
-                                    <td><span class="badge badge-success mr-1">{{c.order_of_magnitude.size}}</span></td>
-                                </tr>
-                                <tr v-if="c.materials.length > 0">
-                                    <td>Materials:</td>
-                                    <td> <span v-for="m in c.materials" class="badge badge-danger mr-1">{{m.label}}</span></td>
-                                </tr>
-                                <tr v-if="c.data_categories.length > 0">
-                                    <td>Data: </td>
-                                    <td><span v-for="m in c.data_categories" class="badge badge-primary mr-1">{{m.label}}</td>
-                                </tr>
-                            </table>
-                        </li>
-                    </ul>
-        </div>
-        <div class="col col-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Contact</h5>
-                    <p class="card-text">
-                        <a href="{{record.url}}">Website</a>
-                        <br />
-                        <a href="{{record.contact.email}}">Email</a>
-                        <br />
-                        <br />
-                        {{record.juridical_person}}
-                        <br />
-                        {{record.country.name }}
-                    </p>
+                        <h3>Collections</h3>
+                        <div v-if="record.collections.length == 0 ">none</div>
+                        <ul class="list-group list-group-flush">
+                            <li v-for="(c,index) in record.collections" class="list-group-item pl-0">
+                                <h4><a href="">{{c.name}}</a></h4><p v-if="c.description">{{c.description.substr(0,200)}}
+                                <span v-if="c.description.length >= 200">
+                                    <span class="collapse" :id="'collection'+index">{{c.description.substr(200)}}</span>
+                                    <a data-toggle="collapse" :href="'#collection'+index"> ... read more</a>
+                                </span>
+                                </span></p>
+                                <table>
+                                    <tr>
+                                        <td style="width: 5rem"> Size: </td>
+                                        <td><span class="badge badge-success mr-1">{{c.order_of_magnitude.size}}</span></td>
+                                    </tr>
+                                    <tr v-if="c.materials.length > 0">
+                                        <td>Materials:</td>
+                                        <td> <span v-for="m in c.materials" class="badge badge-danger mr-1">{{m.label}}</span></td>
+                                    </tr>
+                                    <tr v-if="c.data_categories.length > 0">
+                                        <td>Data: </td>
+                                        <td><span v-for="m in c.data_categories" class="badge badge-primary mr-1">{{m.label}}</td>
+                                    </tr>
+                                </table>
+                            </li>
+                        </ul>
+            </div>
+            <div class="col col-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Contact</h5>
+                        <p class="card-text">
+                            <a href="{{record.url}}">Website</a>
+                            <br />
+                            <a href="{{record.contact.email}}">Email</a>
+                            <br />
+                            <br />
+                            {{record.juridical_person}}
+                            <br />
+                            {{record.country.name }}
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 eu_bbmri_eric_collections:
   attrs: "*,biobank(*)"
