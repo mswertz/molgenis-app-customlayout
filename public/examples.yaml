@@ -117,8 +117,9 @@ eu_bbmri_eric_collections:
       </div>
     </div>
 eu_bbmri_eric_networks:
-  attrs: "*,collections(*),contact,"
+  attrs: "*"
   template: >
     <div>
+        <h1>{{record.name}}</h1>
         todo, please edit here
     </div>
