@@ -66,7 +66,7 @@ export default {
                 if (value === this.idsUrl) {
                     const idAttribute = response.data.meta.idAttribute
                     this.ids = response.data.items.map((it) => it[idAttribute])
-                    if (this.ids.length > 0 ) {
+                    if (this.ids.length > 0 && this.id === null ) {
                         this.$emit('select', this.ids[0])
                     }
                 }
