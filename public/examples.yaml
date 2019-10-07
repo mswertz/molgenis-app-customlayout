@@ -1,7 +1,7 @@
 eu_bbmri_eric_biobanks:
   attrs: "*,collections(*),contact,network,country"
   template: >
-     <div class="container">
+    <div class="container">
         <h4><span class="badge badge-secondary">Biobank</span></h4>
         <h1>{{record.name}}<span v-if="record.acronym">({{record.acronym}})</span></h1>
         <div>ID: {{record.id}}</div>
